@@ -24,6 +24,7 @@ func New(uri, callback string) (*paypack.Client, error) {
 	if !strings.HasSuffix(base.Path, "/") {
 		base.Path = base.Path + "/"
 	}
+
 	report, err := url.Parse(callback)
 	if err != nil {
 		return nil, err
