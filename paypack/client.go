@@ -28,7 +28,7 @@ type Response struct {
 
 // Client manages communication with a payment gateways API.
 type Client struct {
-	Client *http.Client
+	http *http.Client
 
 	// Base URL for API requests.
 	BaseURL *url.URL
@@ -46,6 +46,21 @@ type Client struct {
 	// dump the the response body for debugging purposes.
 	// This can be set to httputil.DumpResponse.
 	DumpResponse func(*http.Response, bool) ([]byte, error)
+}
+
+// NewHTTPClient initializes an http.Client
+func NewHTTPClient(opts ...ClientOption) *http.Client {
+	tr := http.DefaultTransport
+	for _, opt := range opts {
+		tr = opt(tr)
+	}
+	return &http.Client{Transport: tr}
+}
+
+// NewClient initializes a Client
+func NewClient(opts ...ClientOption) *Client {
+	client := &Client{http: NewHTTPClient(opts...)}
+	return client
 }
 
 type funcTripper struct {
@@ -69,7 +84,7 @@ func (c *Client) Do(ctx context.Context, in *Request) (*Response, error) {
 		req.Header = in.Header
 	}
 
-	client := c.Client
+	client := c.http
 	if client == nil {
 		client = http.DefaultClient
 	}
