@@ -24,10 +24,10 @@ type TokenSource interface {
 
 // AuthService handles authentication to the underlying API
 type AuthService interface {
-	// Login with id and secret to the underlying API and get an JWT token
+	// Login with cleint_id and client_secret to the underlying API and get an JWT token of paypack api
 	Login(context.Context, string, string) (*Token, error)
 
-	// Refresh the oauth2 token
+	// Refresh the access token for revalidated the jwt token
 	Refresh(ctx context.Context, token *Token) (*Token, error)
 }
 

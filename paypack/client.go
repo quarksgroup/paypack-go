@@ -33,14 +33,20 @@ type Client struct {
 	// Base URL for API requests.
 	BaseURL *url.URL
 
-	// ReportURL is the url to callback for payment reports
-	ReportURL *url.URL
+	// ReportURL is the url to callback for transactions reports
+	// ReportURL *url.URL
 
 	// Driver identifies the payment provider to use
 	Driver Driver
 
-	// // Auth authenticates our http client against the payment provider.
+	// Auth authenticates our http api call to  authenticate user.
 	Auth AuthService
+
+	// Transactions our http api call for commiting cashin
+	Transaction TransactionService
+
+	// Merchant our http api call for merchants
+	Merchant MerchantService
 
 	// DumpResponse optionally specifies a function to
 	// dump the the response body for debugging purposes.
