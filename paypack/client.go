@@ -48,6 +48,9 @@ type Client struct {
 	// Merchant our http api call for merchants
 	Merchant MerchantService
 
+	// Events our http api call for events
+	Event EventService
+
 	// DumpResponse optionally specifies a function to
 	// dump the the response body for debugging purposes.
 	// This can be set to httputil.DumpResponse.

@@ -64,10 +64,9 @@ func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Tra
 		Ref:     out.Ref,
 		Amount:  out.Amount,
 		Kind:    out.Kind,
-		Status:  out.Status,
 		Fee:     out.Fee,
 		Client:  out.Client,
-		Created: &out.Timestamp,
+		Created: out.Timestamp,
 	}
 	return res, err
 }
@@ -105,10 +104,9 @@ func (s *transactionService) List(ctx context.Context, options ...string) (*payp
 			Ref:     tx.Ref,
 			Amount:  tx.Amount,
 			Kind:    tx.Kind,
-			Status:  tx.Status,
 			Fee:     tx.Fee,
 			Client:  tx.Client,
-			Created: &tx.Timestamp,
+			Created: tx.Timestamp,
 		})
 	}
 

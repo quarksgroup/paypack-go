@@ -42,6 +42,8 @@ func New(uri string) (*paypack.Client, error) {
 
 	client.Merchant = &merchantService{client}
 
+	client.Event = &eventService{client}
+
 	client.Transaction = &transactionService{client}
 
 	return client.Client, nil

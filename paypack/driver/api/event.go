@@ -27,9 +27,7 @@ func (s *eventService) List(ctx context.Context, options ...string) (*paypack.Ev
 	_, err := s.http.do(ctx, "GET", endpoint, nil, out)
 
 	res := &paypack.EventList{
-		Kind: out.Kind,
-		// From:  out.From,
-		// To:    out.To,
+		Kind:      out.Kind,
 		Offset:    out.Offset,
 		EventKind: out.EventKind,
 		Limit:     out.Limit,
@@ -38,7 +36,7 @@ func (s *eventService) List(ctx context.Context, options ...string) (*paypack.Ev
 	}
 	for _, event := range out.Transactions {
 
-		transaction := &paypack.Data{
+		transaction := &paypack.EventData{
 			Ref:         event.Data.Ref,
 			Amount:      event.Data.Amount,
 			Kind:        event.Data.Kind,

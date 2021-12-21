@@ -1,0 +1,22 @@
+{
+    "limit": 10,
+    "total": 18,
+    "transactions": [
+        {
+            "event_id": "3061c1f6-5f22-11ec-a929-0242ac120003",
+            "event_kind": "transaction:processed",
+            "created_at": "2021-12-17T10:14:58.685955Z",
+            "data": {
+                "ref": "54ed64ec-b10e-411c-b1bb-3d370f3d1dfc",
+                "kind": "CASHIN",
+                "fee": 2.3,
+                "merchant": "HDJUD",
+                "client": "0780633341",
+                "amount": 100,
+                "status": "failed",
+                "created_at": "2021-12-17T12:06:32.421455842+02:00",
+                "processed_at": "2021-12-17T12:14:58.68566743+02:00"
+            }
+        }
+    ]
+}

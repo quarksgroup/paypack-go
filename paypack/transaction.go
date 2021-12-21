@@ -12,8 +12,7 @@ type Transaction struct {
 	Fee     float64
 	Client  string
 	Amount  float64
-	Status  string
-	Created *time.Time
+	Created time.Time
 }
 
 // Transactions this reperesent informations of more than tx by using list

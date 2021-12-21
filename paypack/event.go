@@ -7,12 +7,12 @@ import (
 
 type Event struct {
 	ID        string
-	Data      Data
+	Data      EventData
 	Kind      string
 	CreatedAt string
 }
 
-type Data struct {
+type EventData struct {
 	Ref         string     `json:"ref"`
 	Status      string     `json:"status"`
 	Amount      float64    `json:"amount"`

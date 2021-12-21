@@ -45,10 +45,10 @@ type listTransactionResponse struct {
 }
 
 type transactionEventResponse struct {
-	ID        string       `json:"event_id"`
-	Kind      string       `json:"event_kind"`
-	Data      paypack.Data `json:"data"`
-	CreatedAt string       `json:"created_at"`
+	ID        string            `json:"event_id"`
+	Kind      string            `json:"event_kind"`
+	Data      paypack.EventData `json:"data"`
+	CreatedAt string            `json:"created_at"`
 }
 type listEventResponse struct {
 	Ref          *string                    `json:"ref,omitempty"`
