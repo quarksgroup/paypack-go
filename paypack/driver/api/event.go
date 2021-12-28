@@ -15,7 +15,6 @@ type eventService struct {
 func (s *eventService) List(ctx context.Context, options ...string) (*paypack.EventList, error) {
 
 	var params string
-
 	if len(options) > 0 {
 		for _, option := range options {
 			params += fmt.Sprintf("%s&", option)

@@ -74,13 +74,15 @@ func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Tra
 // List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
 func (s *transactionService) List(ctx context.Context, options ...string) (*paypack.Transactions, error) {
 
-	endpoint := "transactions/list"
+	var params string
 
 	if len(options) > 0 {
 		for _, option := range options {
-			endpoint = fmt.Sprintf("%s?%s", endpoint, option)
+			params += fmt.Sprintf("%s&", option)
 		}
 	}
+
+	endpoint := fmt.Sprintf("transactions/list?%s", params)
 
 	out := new(listTransactionResponse)
 
