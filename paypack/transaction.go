@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+type Option string
+
 // Transaction represent transaction information
 type Transaction struct {
 	Ref     string
@@ -29,14 +31,14 @@ type Transactions struct {
 	Transactions []Transaction
 }
 
-// TxPayload represents as single payload required for making transaction
-type TxPayload struct {
+// TransactionRequest represents as single payload required for making transaction
+type TransactionRequest struct {
 	Amount float64
 	Number string
 }
 
-//TxResponse represent as single response data created after transaction was commited
-type TxResponse struct {
+//TransactionResponse represent as single response data created after transaction was commited
+type TransactionResponse struct {
 	Ref       string     `json:"ref"`
 	Status    string     `json:"status"`
 	Amount    float64    `json:"amount"`
@@ -49,11 +51,11 @@ type TxResponse struct {
 type TransactionService interface {
 
 	// Cashin handles cashin http api request for https://payments.paypack.rw/api/transactions/cashin
-	Cashin(context.Context, *TxPayload) (*TxResponse, error)
+	Cashin(context.Context, *TransactionRequest) (*TransactionResponse, error)
 	// Cashout handles Cashout http api request for https://payments.paypack.rw/api/transactions/cashout
-	Cashout(context.Context, *TxPayload) (*TxResponse, error)
+	Cashout(context.Context, *TransactionRequest) (*TransactionResponse, error)
 	// Find handles Find http api request for https://payments.paypack.rw/api/transactions/find/{ref}
 	Find(context.Context, string) (*Transaction, error)
 	// List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
-	List(ctx context.Context, options ...string) (*Transactions, error)
+	List(ctx context.Context, options ...Option) (*Transactions, error)
 }

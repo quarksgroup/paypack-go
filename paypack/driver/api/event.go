@@ -12,10 +12,9 @@ type eventService struct {
 }
 
 // List implements the paypack list events with the given query slice parameters
-func (s *eventService) List(ctx context.Context, options ...string) (*paypack.EventList, error) {
+func (s *eventService) List(ctx context.Context, options ...paypack.Option) (*paypack.EventList, error) {
 
 	var params string
-
 	if len(options) > 0 {
 		for _, option := range options {
 			params += fmt.Sprintf("%s&", option)

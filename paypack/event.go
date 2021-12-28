@@ -36,5 +36,5 @@ type EventList struct {
 
 type EventService interface {
 	// List returns a collection of events that match a list of filters query params
-	List(ctx context.Context, option ...string) (*EventList, error)
+	List(ctx context.Context, options ...Option) (*EventList, error)
 }

@@ -12,8 +12,8 @@ type transactionService struct {
 	http *wrapper
 }
 
-func (s *transactionService) Cashin(ctx context.Context, tx *paypack.TxPayload) (*paypack.TxResponse, error) {
-	endpoint := "transactions/cashin"
+func (s *transactionService) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
+	const endpoint = "transactions/cashin"
 
 	in := &transactionRequest{
 		Amount: tx.Amount,
@@ -27,13 +27,13 @@ func (s *transactionService) Cashin(ctx context.Context, tx *paypack.TxPayload) 
 	if detectProvider(in.Number) == uknown {
 		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "unsupported provider"}
 	}
-	out := new(paypack.TxResponse)
+	out := new(paypack.TransactionResponse)
 	_, err := s.http.do(ctx, "POST", endpoint, in, out)
 	return out, err
 }
 
-func (s *transactionService) Cashout(ctx context.Context, tx *paypack.TxPayload) (*paypack.TxResponse, error) {
-	endpoint := "transactions/cashout"
+func (s *transactionService) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
+	const endpoint = "transactions/cashout"
 
 	in := &transactionRequest{
 		Amount: tx.Amount,
@@ -48,12 +48,13 @@ func (s *transactionService) Cashout(ctx context.Context, tx *paypack.TxPayload)
 		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "unsupported provider"}
 	}
 
-	out := new(paypack.TxResponse)
+	out := new(paypack.TransactionResponse)
 	_, err := s.http.do(ctx, "POST", endpoint, in, out)
 	return out, err
 }
 
 func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Transaction, error) {
+
 	endpoint := fmt.Sprintf("transactions/find/%s", ref)
 
 	out := new(findTransactionResponse)
@@ -72,15 +73,17 @@ func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Tra
 }
 
 // List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
-func (s *transactionService) List(ctx context.Context, options ...string) (*paypack.Transactions, error) {
+func (s *transactionService) List(ctx context.Context, options ...paypack.Option) (*paypack.Transactions, error) {
 
-	endpoint := "transactions/list"
+	var params string
 
 	if len(options) > 0 {
 		for _, option := range options {
-			endpoint = fmt.Sprintf("%s?%s", endpoint, option)
+			params += fmt.Sprintf("%s&", option)
 		}
 	}
+
+	endpoint := fmt.Sprintf("transactions/list?%s", params)
 
 	out := new(listTransactionResponse)
 

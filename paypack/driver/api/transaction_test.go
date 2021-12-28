@@ -24,7 +24,7 @@ func TestCashin(t *testing.T) {
 		File("testdata/cashin.json")
 	client := NewDefault()
 
-	in := &paypack.TxPayload{
+	in := &paypack.TransactionRequest{
 		Amount: 100,
 		Number: "07898989898",
 	}
@@ -32,7 +32,7 @@ func TestCashin(t *testing.T) {
 	got, err := client.Transaction.Cashin(context.Background(), in)
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
-	want := new(paypack.TxResponse)
+	want := new(paypack.TransactionResponse)
 	raw, _ := ioutil.ReadFile("testdata/cashin.json.golden")
 	_ = json.Unmarshal(raw, want)
 	if diff := cmp.Diff(got, want); diff != "" {
@@ -52,7 +52,7 @@ func TestCashout(t *testing.T) {
 		File("testdata/cashout.json")
 	client := NewDefault()
 
-	in := &paypack.TxPayload{
+	in := &paypack.TransactionRequest{
 		Amount: 100,
 		Number: "07898989898",
 	}
@@ -60,7 +60,7 @@ func TestCashout(t *testing.T) {
 	got, err := client.Transaction.Cashout(context.Background(), in)
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
-	want := new(paypack.TxResponse)
+	want := new(paypack.TransactionResponse)
 	raw, _ := ioutil.ReadFile("testdata/cashout.json.golden")
 	_ = json.Unmarshal(raw, want)
 	if diff := cmp.Diff(got, want); diff != "" {
