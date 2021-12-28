@@ -2,39 +2,27 @@ package paypack
 
 import (
 	"context"
-	"time"
 )
 
 type Event struct {
-	ID        string
-	Data      EventData
-	Kind      string
-	CreatedAt string
-}
-
-type EventData struct {
-	Ref         string     `json:"ref"`
-	Status      string     `json:"status"`
-	Amount      float64    `json:"amount"`
-	Client      string     `json:"client"`
-	Kind        string     `json:"kind"`
-	Fee         float64    `json:"fee"`
-	CreatedAt   *time.Time `json:"created_at,omitempty"`
-	ProcessedAt *time.Time `json:"processed_at,omitempty"`
+	ID        string      `json:"event_id"`
+	Data      Transaction `json:"data"`
+	Kind      string      `json:"event_kind"`
+	CreatedAt string      `json:"created_at"`
 }
 
 type EventList struct {
-	Kind      *string
-	From      *string
-	To        *string
-	EventKind *string
-	Offset    uint64
-	Limit     uint64
-	Total     uint64
-	Events    []Event
+	Kind         *string `json:"kind,omitempty"`
+	From         *string `json:"from,omitempty"`
+	To           *string `json:"to,omitempty"`
+	EventKind    *string `json:"event-kind,omitempty"`
+	Offset       uint64  `json:"offset,omitempty"`
+	Limit        uint64  `json:"limit,omitempty"`
+	Total        uint64  `json:"total,omitempty"`
+	Transactions []Event `json:"transactions,omitempty"`
 }
 
 type EventService interface {
 	// List returns a collection of events that match a list of filters query params
-	List(ctx context.Context, option ...string) (*EventList, error)
+	List(ctx context.Context, options ...Option) (*EventList, error)
 }

@@ -22,12 +22,14 @@ func TestEvent(t *testing.T) {
 		Reply(200).
 		Type("application/json").
 		File("testdata/event.json")
+
 	client := NewDefault()
-	got, err := client.Event.List(context.Background(), "limit=10&offset=0&status=failed&kind=cashout")
+
+	got, err := client.Event.List(context.Background(), "status=failed", "limit=10", "offset=0", "kind=cashin")
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 
-	want := new(paypack.Event)
+	want := new(paypack.EventList)
 
 	raw, _ := ioutil.ReadFile("testdata/event.json.golden")
 	_ = json.Unmarshal(raw, want)

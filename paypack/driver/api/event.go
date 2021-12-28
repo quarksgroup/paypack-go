@@ -1,7 +1,9 @@
 package api
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/quarksgroup/paypack-go/paypack"
@@ -12,10 +14,9 @@ type eventService struct {
 }
 
 // List implements the paypack list events with the given query slice parameters
-func (s *eventService) List(ctx context.Context, options ...string) (*paypack.EventList, error) {
+func (s *eventService) List(ctx context.Context, options ...paypack.Option) (*paypack.EventList, error) {
 
 	var params string
-
 	if len(options) > 0 {
 		for _, option := range options {
 			params += fmt.Sprintf("%s&", option)
@@ -29,32 +30,31 @@ func (s *eventService) List(ctx context.Context, options ...string) (*paypack.Ev
 	_, err := s.http.do(ctx, "GET", endpoint, nil, out)
 
 	res := &paypack.EventList{
-		Kind:      out.Kind,
-		Offset:    out.Offset,
-		EventKind: out.EventKind,
-		Limit:     out.Limit,
-		Total:     out.Total,
-		Events:    make([]paypack.Event, 0),
+		Kind:         out.Kind,
+		Offset:       out.Offset,
+		EventKind:    out.EventKind,
+		Limit:        out.Limit,
+		Total:        out.Total,
+		Transactions: make([]paypack.Event, 0),
 	}
+
 	for _, event := range out.Transactions {
 
-		transaction := &paypack.EventData{
-			Ref:         event.Data.Ref,
-			Amount:      event.Data.Amount,
-			Kind:        event.Data.Kind,
-			Status:      event.Data.Status,
-			Fee:         event.Data.Fee,
-			Client:      event.Data.Client,
-			CreatedAt:   event.Data.CreatedAt,
-			ProcessedAt: event.Data.ProcessedAt,
+		transaction := new(paypack.Transaction)
+
+		r := bytes.NewReader(event.Data)
+		if err := json.NewDecoder(r).Decode(transaction); err != nil {
+			return nil, err
 		}
 
-		res.Events = append(res.Events, paypack.Event{
+		resp := &paypack.Event{
 			ID:        event.ID,
-			Kind:      event.Kind,
 			Data:      *transaction,
+			Kind:      event.Kind,
 			CreatedAt: event.CreatedAt,
-		})
+		}
+
+		res.Transactions = append(res.Transactions, *resp)
 	}
 	return res, err
 

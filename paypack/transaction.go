@@ -5,14 +5,19 @@ import (
 	"time"
 )
 
+type Option string
+
 // Transaction represent transaction information
 type Transaction struct {
-	Ref     string
-	Kind    string
-	Fee     float64
-	Client  string
-	Amount  float64
-	Created time.Time
+	Ref       string     `json:"ref,omitempty"`
+	Status    string     `json:"status,omitempty"`
+	Amount    float64    `json:"amount,omitempty"`
+	Client    string     `json:"client,omitempty"`
+	Kind      string     `json:"kind,omitempty"`
+	Fee       float64    `json:"fee,omitempty"`
+	CreatedAt time.Time  `json:"created_at,omitempty"`
+	Processed *time.Time `json:"processed_at,omitempty"`
+	Commited  *time.Time `json:"commited_at,omitempty"`
 }
 
 // Transactions this reperesent informations of more than tx by using list
@@ -29,14 +34,14 @@ type Transactions struct {
 	Transactions []Transaction
 }
 
-// TxPayload represents as single payload required for making transaction
-type TxPayload struct {
+// TransactionRequest represents as single payload required for making transaction
+type TransactionRequest struct {
 	Amount float64
 	Number string
 }
 
-//TxResponse represent as single response data created after transaction was commited
-type TxResponse struct {
+//TransactionResponse represent as single response data created after transaction was commited
+type TransactionResponse struct {
 	Ref       string     `json:"ref"`
 	Status    string     `json:"status"`
 	Amount    float64    `json:"amount"`
@@ -49,11 +54,11 @@ type TxResponse struct {
 type TransactionService interface {
 
 	// Cashin handles cashin http api request for https://payments.paypack.rw/api/transactions/cashin
-	Cashin(context.Context, *TxPayload) (*TxResponse, error)
+	Cashin(context.Context, *TransactionRequest) (*TransactionResponse, error)
 	// Cashout handles Cashout http api request for https://payments.paypack.rw/api/transactions/cashout
-	Cashout(context.Context, *TxPayload) (*TxResponse, error)
+	Cashout(context.Context, *TransactionRequest) (*TransactionResponse, error)
 	// Find handles Find http api request for https://payments.paypack.rw/api/transactions/find/{ref}
 	Find(context.Context, string) (*Transaction, error)
 	// List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
-	List(ctx context.Context, options ...string) (*Transactions, error)
+	List(ctx context.Context, options ...Option) (*Transactions, error)
 }

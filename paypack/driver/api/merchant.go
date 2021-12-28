@@ -12,7 +12,7 @@ type merchantService struct {
 
 func (s *merchantService) Me(ctx context.Context) (*paypack.Merchant, error) {
 
-	endpoint := "merchants/me"
+	const endpoint = "merchants/me"
 
 	out := new(paypack.Merchant)
 

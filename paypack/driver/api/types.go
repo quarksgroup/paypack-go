@@ -1,9 +1,8 @@
 package api
 
 import (
+	"encoding/json"
 	"time"
-
-	"github.com/quarksgroup/paypack-go/paypack"
 )
 
 type loginRequest struct {
@@ -21,7 +20,7 @@ type transactionRequest struct {
 	Number string  `json:"number"`
 }
 
-type findTransactionResponse struct {
+type Transaction struct {
 	Ref       string    `json:"ref"`
 	Status    string    `json:"status"`
 	Amount    float64   `json:"amount"`
@@ -31,32 +30,32 @@ type findTransactionResponse struct {
 	Merchant  string    `json:"merchant"`
 	Timestamp time.Time `json:"timestamp"`
 }
-type listTransactionResponse struct {
-	Offset       uint64                    `json:"offset"`
-	Limit        uint64                    `json:"limit"`
-	From         *string                   `json:"from,omitempty"`
-	To           *string                   `json:"to,omitempty"`
-	Kind         *string                   `json:"kind,omitempty"`
-	Cashin       float64                   `json:"cashin,omitempty"`
-	Cashout      float64                   `json:"cashout,omitempty"`
-	Fee          float64                   `json:"fee,omitempty"`
-	Total        uint64                    `json:"total,omitempty"`
-	Transactions []findTransactionResponse `json:"transactions"`
+type listTransactions struct {
+	Offset       uint64        `json:"offset"`
+	Limit        uint64        `json:"limit"`
+	From         *string       `json:"from,omitempty"`
+	To           *string       `json:"to,omitempty"`
+	Kind         *string       `json:"kind,omitempty"`
+	Cashin       float64       `json:"cashin,omitempty"`
+	Cashout      float64       `json:"cashout,omitempty"`
+	Fee          float64       `json:"fee,omitempty"`
+	Total        uint64        `json:"total,omitempty"`
+	Transactions []Transaction `json:"transactions"`
 }
 
-type transactionEventResponse struct {
-	ID        string            `json:"event_id"`
-	Kind      string            `json:"event_kind"`
-	Data      paypack.EventData `json:"data"`
-	CreatedAt string            `json:"created_at"`
+type EventResponse struct {
+	ID        string          `json:"event_id"`
+	Kind      string          `json:"event_kind"`
+	Data      json.RawMessage `json:"data"`
+	CreatedAt string          `json:"created_at"`
 }
 type listEventResponse struct {
-	Ref          *string                    `json:"ref,omitempty"`
-	Status       *string                    `json:"status,omitempty"`
-	Kind         *string                    `json:"kind,omitempty"`
-	Offset       uint64                     `json:"offset,omitempty"`
-	Limit        uint64                     `json:"limit,omitempty"`
-	EventKind    *string                    `json:"event-kind,omitempty"`
-	Total        uint64                     `json:"total,omitempty"`
-	Transactions []transactionEventResponse `json:"transactions"`
+	Ref          *string         `json:"ref,omitempty"`
+	Status       *string         `json:"status,omitempty"`
+	Kind         *string         `json:"kind,omitempty"`
+	Offset       uint64          `json:"offset,omitempty"`
+	Limit        uint64          `json:"limit,omitempty"`
+	EventKind    *string         `json:"event-kind,omitempty"`
+	Total        uint64          `json:"total,omitempty"`
+	Transactions []EventResponse `json:"transactions"`
 }

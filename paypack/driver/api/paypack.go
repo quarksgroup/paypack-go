@@ -99,6 +99,7 @@ func (c *wrapper) do(ctx context.Context, method, path string, in, out interface
 	if out == nil {
 		return res, nil
 	}
+
 	// if a json response is expected, parse and return
 	// the json response.
 	return res, json.NewDecoder(res.Body).Decode(out)
