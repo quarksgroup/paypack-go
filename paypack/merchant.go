@@ -3,10 +3,10 @@ package paypack
 import "context"
 
 type Merchant struct {
-	Name    string  `json:"name"`
-	RateIn  float64 `json:"rate_in"`
-	RateOut float64 `json:"rate_out"`
-	Balance float64 `json:"balance"`
+	Name    string  `json:"name,omitempty"`
+	InRate  float64 `json:"in_rate,omitempty"`
+	OutRate float64 `json:"out_rate,omitempty"`
+	Balance float64 `json:"balance,omitempty"`
 }
 
 type MerchantService interface {

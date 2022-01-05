@@ -14,10 +14,18 @@ func (s *merchantService) Me(ctx context.Context) (*paypack.Merchant, error) {
 
 	const endpoint = "merchants/me"
 
-	out := new(paypack.Merchant)
+	out := new(merchantResponse)
 
 	_, err := s.http.do(ctx, "GET", endpoint, nil, out)
-	return out, err
+
+	res := &paypack.Merchant{
+		Name:    out.Name,
+		InRate:  out.In,
+		OutRate: out.Out,
+		Balance: out.Balance,
+	}
+
+	return res, err
 }
 
 var _ (paypack.MerchantService) = (*merchantService)(nil)

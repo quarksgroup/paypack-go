@@ -59,3 +59,10 @@ type listEventResponse struct {
 	Total        uint64          `json:"total,omitempty"`
 	Transactions []EventResponse `json:"transactions"`
 }
+
+type merchantResponse struct {
+	Name    string  `json:"name,omitempty"`
+	In      float64 `json:"in_rate,omitempty"`
+	Out     float64 `json:"out_rate,omitempty"`
+	Balance float64 `json:"balance,omitempty"`
+}

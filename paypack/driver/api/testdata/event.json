@@ -1,22 +1,52 @@
 {
     "limit": 10,
     "offset": 0,
-    "total": 1,
     "transactions": [
         {
-            "event_id": "3061c1f6-5f22-11ec-a929-0242ac120003",
+            "event_id": "f6e775c6-6ca8-11ec-aa23-0242ac120003",
             "event_kind": "transaction:processed",
-            "created_at": "2021-12-17T10:14:58.685955Z",
+            "created_at": "2022-01-03T15:22:29.430397Z",
             "data": {
-                "ref": "54ed64ec-b10e-411c-b1bb-3d370f3d1dfc",
+                "ref": "14404f05-ee56-4e7a-bdc1-a2f52a23c759",
                 "kind": "CASHIN",
+                "fee": 18.4,
+                "merchant": "4Q6UHJ",
+                "client": "0780633340",
+                "amount": 800,
+                "status": "successful",
+                "created_at": "2022-01-03T17:22:02.7422568+02:00",
+                "processed_at": "2022-01-03T17:22:29.43022813+02:00"
+            }
+        },
+        {
+            "event_id": "e70a49b2-6ca8-11ec-aa23-0242ac120003",
+            "event_kind": "transaction:created",
+            "created_at": "2022-01-03T15:22:02.742554Z",
+            "data": {
+                "ref": "14404f05-ee56-4e7a-bdc1-a2f52a23c759",
+                "kind": "CASHIN",
+                "fee": 18.4,
+                "merchant": "4Q6UHJ",
+                "client": "0780633340",
+                "amount": 800,
+                "status": "pending",
+                "created_at": "2022-01-03T17:22:02.7422568+02:00"
+            }
+        },
+        {
+            "event_id": "379a4902-5f68-11ec-a929-0242ac120003",
+            "event_kind": "transaction:processed",
+            "created_at": "2021-12-17T18:36:15.572904Z",
+            "data": {
+                "ref": "6bd6f1e4-8667-43be-ba8a-9aa31744e5d0",
+                "kind": "CASHOUT",
                 "fee": 2.3,
-                "merchant": "HDJUD",
-                "client": "0780633341",
+                "merchant": "4Q6UHJ",
+                "client": "0780633340",
                 "amount": 100,
-                "status": "failed",
-                "created_at": "2021-12-17T12:06:32.421455842+02:00",
-                "processed_at": "2021-12-17T12:14:58.68566743+02:00"
+                "status": "successful",
+                "created_at": "2021-12-17T20:36:12.363574063+02:00",
+                "processed_at": "2021-12-17T20:36:15.572724096+02:00"
             }
         }
     ]

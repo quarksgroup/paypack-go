@@ -1,7 +1,6 @@
 package api
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -42,19 +41,18 @@ func (s *eventService) List(ctx context.Context, options ...paypack.Option) (*pa
 
 		transaction := new(paypack.Transaction)
 
-		r := bytes.NewReader(event.Data)
-		if err := json.NewDecoder(r).Decode(transaction); err != nil {
+		if err := json.Unmarshal([]byte(event.Data), transaction); err != nil {
 			return nil, err
 		}
 
-		resp := &paypack.Event{
+		resp := paypack.Event{
 			ID:        event.ID,
 			Data:      *transaction,
 			Kind:      event.Kind,
 			CreatedAt: event.CreatedAt,
 		}
 
-		res.Transactions = append(res.Transactions, *resp)
+		res.Transactions = append(res.Transactions, resp)
 	}
 	return res, err
 

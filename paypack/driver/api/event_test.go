@@ -32,7 +32,9 @@ func TestEvent(t *testing.T) {
 	want := new(paypack.EventList)
 
 	raw, _ := ioutil.ReadFile("testdata/event.json.golden")
+
 	_ = json.Unmarshal(raw, want)
+
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("Unexpected Results")
 		t.Log(diff)
