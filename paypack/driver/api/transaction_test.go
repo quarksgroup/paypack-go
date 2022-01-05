@@ -32,9 +32,17 @@ func TestCashin(t *testing.T) {
 	got, err := client.Transaction.Cashin(context.Background(), in)
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
+
 	want := new(paypack.TransactionResponse)
+
 	raw, _ := ioutil.ReadFile("testdata/cashin.json.golden")
-	_ = json.Unmarshal(raw, want)
+
+	err = json.Unmarshal(raw, want)
+
+	if err != nil {
+		t.Log(err)
+	}
+
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("Unexpected Results")
 		t.Log(diff)
@@ -62,7 +70,13 @@ func TestCashout(t *testing.T) {
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 	want := new(paypack.TransactionResponse)
 	raw, _ := ioutil.ReadFile("testdata/cashout.json.golden")
-	_ = json.Unmarshal(raw, want)
+
+	err = json.Unmarshal(raw, want)
+
+	if err != nil {
+		t.Log(err)
+	}
+
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("Unexpected Results")
 		t.Log(diff)
@@ -87,7 +101,11 @@ func TestFind(t *testing.T) {
 
 	raw, _ := ioutil.ReadFile("testdata/find.json.golden")
 
-	_ = json.Unmarshal(raw, want)
+	err = json.Unmarshal(raw, want)
+
+	if err != nil {
+		t.Log(err)
+	}
 
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("Unexpected Results")

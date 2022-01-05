@@ -31,7 +31,12 @@ func TestMe(t *testing.T) {
 	want := new(paypack.Merchant)
 
 	raw, _ := ioutil.ReadFile("testdata/merchant.json.golden")
-	_ = json.Unmarshal(raw, want)
+
+	err = json.Unmarshal(raw, want)
+	if err != nil {
+		t.Log(err)
+	}
+
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("Unexpected Results")
 		t.Log(diff)

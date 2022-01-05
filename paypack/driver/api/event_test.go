@@ -33,7 +33,11 @@ func TestEvent(t *testing.T) {
 
 	raw, _ := ioutil.ReadFile("testdata/event.json.golden")
 
-	_ = json.Unmarshal(raw, want)
+	err = json.Unmarshal(raw, want)
+
+	if err != nil {
+		t.Log(err)
+	}
 
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("Unexpected Results")
