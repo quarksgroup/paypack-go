@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	baseURL = "https://payments.paypack.rw/api"
+	// baseURL = "https://payments.paypack.rw/api"
+	baseURL = " http://localhost:8080/api"
 )
 
 // New creates a new payment.Client instance backed by the paypack.DriverPaypack
