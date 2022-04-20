@@ -16,7 +16,7 @@ func (s *merchantService) Me(ctx context.Context) (*paypack.Merchant, error) {
 
 	out := new(merchantResponse)
 
-	_, err := s.http.do(ctx, "GET", endpoint, nil, out)
+	_, err := s.http.do(ctx, "GET", endpoint, nil, out, nil)
 
 	res := &paypack.Merchant{
 		Name:    out.Name,

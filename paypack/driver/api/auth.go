@@ -27,7 +27,7 @@ func (s *authService) Login(ctx context.Context, clientId, clietnSecret string) 
 
 	out := new(tokenResponse)
 
-	_, err := s.client.do(ctx, "POST", loginEndpoint, in, out)
+	_, err := s.client.do(ctx, "POST", loginEndpoint, in, out, nil)
 
 	return convertToken(out), err
 }
@@ -41,7 +41,7 @@ func (c *authService) Refresh(ctx context.Context, token *paypack.Token) (*paypa
 
 	out := new(tokenResponse)
 
-	_, err := c.client.do(ctx, "GET", fmt.Sprintf("%s/%s", refershEndpoint, token.Refresh), nil, out)
+	_, err := c.client.do(ctx, "GET", fmt.Sprintf("%s/%s", refershEndpoint, token.Refresh), nil, out, nil)
 
 	return convertToken(out), err
 }
