@@ -27,8 +27,13 @@ func (s *transactionService) Cashin(ctx context.Context, tx *paypack.Transaction
 	if detectProvider(in.Number) == uknown {
 		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "unsupported provider"}
 	}
+
+	header := http.Header{
+		"X-Webhook-Mode": []string{tx.Mode},
+	}
+
 	out := new(paypack.TransactionResponse)
-	_, err := s.http.do(ctx, "POST", endpoint, in, out)
+	_, err := s.http.do(ctx, "POST", endpoint, in, out, header)
 	return out, err
 }
 
@@ -48,8 +53,13 @@ func (s *transactionService) Cashout(ctx context.Context, tx *paypack.Transactio
 		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "unsupported provider"}
 	}
 
+	header := http.Header{
+		"X-Webhook-Mode": []string{tx.Mode},
+	}
+
 	out := new(paypack.TransactionResponse)
-	_, err := s.http.do(ctx, "POST", endpoint, in, out)
+
+	_, err := s.http.do(ctx, "POST", endpoint, in, out, header)
 	return out, err
 }
 
@@ -59,7 +69,7 @@ func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Tra
 
 	out := new(Transaction)
 
-	_, err := s.http.do(ctx, "GET", endpoint, nil, out)
+	_, err := s.http.do(ctx, "GET", endpoint, nil, out, nil)
 
 	res := &paypack.Transaction{
 		Ref:       out.Ref,
@@ -87,7 +97,7 @@ func (s *transactionService) List(ctx context.Context, options ...paypack.Option
 
 	out := new(listTransactions)
 
-	_, err := s.http.do(ctx, "GET", endpoint, nil, out)
+	_, err := s.http.do(ctx, "GET", endpoint, nil, out, nil)
 
 	res := &paypack.Transactions{
 		Offset:       out.Offset,

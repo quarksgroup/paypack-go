@@ -26,7 +26,7 @@ func (s *eventService) List(ctx context.Context, options ...paypack.Option) (*pa
 
 	out := new(listEventResponse)
 
-	_, err := s.http.do(ctx, "GET", endpoint, nil, out)
+	_, err := s.http.do(ctx, "GET", endpoint, nil, out, nil)
 
 	res := &paypack.EventList{
 		Kind:         out.Kind,

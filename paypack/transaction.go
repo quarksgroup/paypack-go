@@ -38,6 +38,7 @@ type Transactions struct {
 type TransactionRequest struct {
 	Amount float64
 	Number string
+	Mode   string
 }
 
 //TransactionResponse represent as single response data created after transaction was commited

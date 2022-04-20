@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"net/http"
 	"net/url"
 	"strings"
 
@@ -13,7 +14,7 @@ import (
 
 const (
 	// baseURL = "https://payments.paypack.rw/api"
-	baseURL = "http://payments.paypack.rw/api"
+	baseURL = "http://localhost:8080/api"
 )
 
 // New creates a new payment.Client instance backed by the paypack.DriverPaypack
@@ -63,7 +64,7 @@ func NewDefault() *paypack.Client {
 
 // do wraps the Client.Do function by creating the Request and
 // unmarshalling the response.
-func (c *wrapper) do(ctx context.Context, method, path string, in, out interface{}) (*paypack.Response, error) {
+func (c *wrapper) do(ctx context.Context, method, path string, in, out interface{}, headers http.Header) (*paypack.Response, error) {
 	req := &paypack.Request{
 		Method: method,
 		Path:   path,
@@ -78,6 +79,10 @@ func (c *wrapper) do(ctx context.Context, method, path string, in, out interface
 			"Content-Type": {"application/json"},
 		}
 		req.Body = buf
+	}
+
+	for k, v := range headers {
+		req.Header[k] = v
 	}
 
 	// execute the http request
