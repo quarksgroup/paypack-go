@@ -2,7 +2,6 @@ package paypack
 
 import (
 	"context"
-	"time"
 )
 
 // Token represents the credentials used to authorize
@@ -10,7 +9,7 @@ import (
 type Token struct {
 	Access  string
 	Refresh string
-	Expires time.Time
+	Expires int64
 }
 
 // TokenKey is the key to use with the context.WithValue
@@ -24,10 +23,10 @@ type TokenSource interface {
 
 // AuthService handles authentication to the underlying API
 type AuthService interface {
-	// Login with id and secret to the underlying API and get an JWT token
+	// Login with cleint_id and client_secret to the underlying API and get an JWT token of paypack api
 	Login(context.Context, string, string) (*Token, error)
 
-	// Refresh the oauth2 token
+	// Refresh the access token for revalidated the jwt token
 	Refresh(ctx context.Context, token *Token) (*Token, error)
 }
 
@@ -36,7 +35,7 @@ func WithContext(parent context.Context, token *Token) context.Context {
 	return context.WithValue(parent, TokenKey{}, token)
 }
 
-// TokenFrom returns the login token rom the context.
+// TokenFrom returns the login token from the context.
 func TokenFrom(ctx context.Context) *Token {
 	token, _ := ctx.Value(TokenKey{}).(*Token)
 	return token

@@ -34,7 +34,9 @@ func (t *Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 		return t.base().RoundTrip(r)
 	}
 	r2 := internal.CloneRequest(r)
-	r2.Header.Set("Authorization", t.scheme()+" "+token.Access)
+	if r2.Header.Get("Authorization") == "" {
+		r2.Header.Set("Authorization", t.scheme()+" "+token.Access)
+	}
 	return t.base().RoundTrip(r2)
 }
 
