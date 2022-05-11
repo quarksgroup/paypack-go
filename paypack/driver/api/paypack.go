@@ -26,16 +26,9 @@ func New(uri string) (*paypack.Client, error) {
 		base.Path = base.Path + "/"
 	}
 
-	// report, err := url.Parse(callback)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	client := &wrapper{new(paypack.Client)}
 
 	client.BaseURL = base
-
-	// client.ReportURL = report
 
 	client.Driver = paypack.DriverPaypack
 
