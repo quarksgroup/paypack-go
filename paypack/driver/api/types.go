@@ -61,6 +61,7 @@ type listEventResponse struct {
 }
 
 type merchantResponse struct {
+	ID      string  `json:"id,omitempty"`
 	Name    string  `json:"name,omitempty"`
 	In      float64 `json:"in_rate,omitempty"`
 	Out     float64 `json:"out_rate,omitempty"`
