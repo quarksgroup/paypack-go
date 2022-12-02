@@ -2,6 +2,7 @@
     "ref": "54ed64ec-b10e-411c-b1bb-3d370f3d1dfc",
     "status": "pending",
     "amount": 100,
+    "provider": "mtn",
     "kind": "CASHIN",
     "created_at": "2021-12-17T12:06:32.421455842+02:00"
 }

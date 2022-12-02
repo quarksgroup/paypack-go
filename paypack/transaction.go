@@ -15,6 +15,7 @@ type Transaction struct {
 	Client    string     `json:"client,omitempty"`
 	Kind      string     `json:"kind,omitempty"`
 	Fee       float64    `json:"fee,omitempty"`
+	Provider  string     `json:"provider,omitempty"`
 	CreatedAt time.Time  `json:"created_at,omitempty"`
 	Processed *time.Time `json:"processed_at,omitempty"`
 	Commited  *time.Time `json:"commited_at,omitempty"`
@@ -46,6 +47,8 @@ type TransactionResponse struct {
 	Ref       string     `json:"ref"`
 	Status    string     `json:"status"`
 	Amount    float64    `json:"amount"`
+	Provider  string     `json:"provider"`
+	UserRef   string     `json:"user_ref"`
 	Kind      string     `json:"kind"`
 	CreatedAt *time.Time `json:"created_at"`
 }
