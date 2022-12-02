@@ -20,14 +20,6 @@ func (s *transactionService) Cashin(ctx context.Context, tx *paypack.Transaction
 		Number: tx.Number,
 	}
 
-	if detectProvider(in.Number) == airtel {
-		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "airtel not currently supported"}
-	}
-
-	if detectProvider(in.Number) == uknown {
-		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "unsupported provider"}
-	}
-
 	header := http.Header{
 		"X-Webhook-Mode": []string{tx.Mode},
 	}
@@ -43,14 +35,6 @@ func (s *transactionService) Cashout(ctx context.Context, tx *paypack.Transactio
 	in := &transactionRequest{
 		Amount: tx.Amount,
 		Number: tx.Number,
-	}
-
-	if detectProvider(in.Number) == airtel {
-		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "airtel not currently supported"}
-	}
-
-	if detectProvider(in.Number) == uknown {
-		return nil, &paypack.Error{Code: http.StatusBadRequest, Message: "unsupported provider"}
 	}
 
 	header := http.Header{
@@ -76,6 +60,7 @@ func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Tra
 		Amount:    out.Amount,
 		Kind:      out.Kind,
 		Fee:       out.Fee,
+		Provider:  out.Provider,
 		Client:    out.Client,
 		CreatedAt: out.Timestamp,
 	}
@@ -117,6 +102,7 @@ func (s *transactionService) List(ctx context.Context, options ...paypack.Option
 			Ref:       tx.Ref,
 			Amount:    tx.Amount,
 			Kind:      tx.Kind,
+			Provider:  tx.Provider,
 			Fee:       tx.Fee,
 			Client:    tx.Client,
 			CreatedAt: tx.Timestamp,

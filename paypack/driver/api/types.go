@@ -26,6 +26,7 @@ type Transaction struct {
 	Amount    float64   `json:"amount"`
 	Fee       float64   `json:"fee"`
 	Kind      string    `json:"kind"`
+	Provider  string    `json:"provider"`
 	Client    string    `json:"client"`
 	Merchant  string    `json:"merchant"`
 	Timestamp time.Time `json:"timestamp"`
@@ -61,9 +62,13 @@ type listEventResponse struct {
 }
 
 type merchantResponse struct {
-	ID      string  `json:"id,omitempty"`
-	Name    string  `json:"name,omitempty"`
-	In      float64 `json:"in_rate,omitempty"`
-	Out     float64 `json:"out_rate,omitempty"`
-	Balance float64 `json:"balance,omitempty"`
+	ID            string  `json:"id,omitempty"`
+	Name          string  `json:"name,omitempty"`
+	In            float64 `json:"in_rate,omitempty"`
+	Out           float64 `json:"out_rate,omitempty"`
+	AirtelInRate  float64 `json:"airtel_in_rate,omitempty"`
+	AirtelOutRate float64 `json:"airtel_out_rate,omitempty"`
+	Balance       float64 `json:"balance,omitempty"`
+	AirtelBalance float64 `json:"airtel_balance,omitempty"`
+	MtnBalance    float64 `json:"mtn_balance,omitempty"`
 }
