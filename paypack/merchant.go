@@ -1,7 +1,6 @@
 package paypack
 
-import "context"
-
+//Merchant represent transaformed merchant profile information
 type Merchant struct {
 	ID            string  `json:"id,omitempty"`
 	Name          string  `json:"name,omitempty"`
@@ -14,6 +13,15 @@ type Merchant struct {
 	MtnBalance    float64 `json:"mtn_balance,omitempty"`
 }
 
-type MerchantService interface {
-	Me(context.Context) (*Merchant, error)
+//Checkout represent checkout information
+type Checkout struct {
+	ID           string `json:"id,omitempty"`
+	Merchant     string `json:"merchant,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Logo         string `json:"logo,omitempty"`
+	SendEmail    bool   `json:"send_email"` // This will represent if merchant need to send email when payments successed
+	ClientId     string `json:"client_id,omitempty"`
+	ClientSecret string `json:"client_secret,omitempty"`
+	CancelUrl    string `json:"cancel_url,omitempty"`
+	SuccessUrl   string `json:"success_url,omitempty"`
 }

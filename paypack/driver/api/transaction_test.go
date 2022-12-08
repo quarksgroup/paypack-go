@@ -29,7 +29,7 @@ func TestCashin(t *testing.T) {
 		Number: "07898989898",
 	}
 
-	got, err := client.Transaction.Cashin(context.Background(), in)
+	got, err := client.Cashin(context.Background(), in)
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 
@@ -65,7 +65,7 @@ func TestCashout(t *testing.T) {
 		Number: "07898989898",
 	}
 
-	got, err := client.Transaction.Cashout(context.Background(), in)
+	got, err := client.Cashout(context.Background(), in)
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 	want := new(paypack.TransactionResponse)
@@ -93,7 +93,7 @@ func TestFind(t *testing.T) {
 		File("testdata/find.json")
 	client := NewDefault()
 
-	got, err := client.Transaction.Find(context.Background(), "xxxxx")
+	got, err := client.FindTx(context.Background(), "xxxxx")
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 

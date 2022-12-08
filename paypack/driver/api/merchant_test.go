@@ -22,9 +22,9 @@ func TestMe(t *testing.T) {
 		Reply(200).
 		Type("application/json").
 		File("testdata/merchant.json")
-	client := NewDefault()
+	cli := NewDefault()
 
-	got, err := client.Merchant.Me(context.Background())
+	got, err := cli.Profile(context.Background())
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 

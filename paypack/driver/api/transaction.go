@@ -8,11 +8,7 @@ import (
 	"github.com/quarksgroup/paypack-go/paypack"
 )
 
-type transactionService struct {
-	http *wrapper
-}
-
-func (s *transactionService) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
+func (c *Client) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
 	const endpoint = "transactions/cashin"
 
 	in := &transactionRequest{
@@ -25,11 +21,11 @@ func (s *transactionService) Cashin(ctx context.Context, tx *paypack.Transaction
 	}
 
 	out := new(paypack.TransactionResponse)
-	_, err := s.http.do(ctx, "POST", endpoint, in, out, header)
+	_, err := c.do(ctx, "POST", endpoint, in, out, header)
 	return out, err
 }
 
-func (s *transactionService) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
+func (c *Client) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
 	const endpoint = "transactions/cashout"
 
 	in := &transactionRequest{
@@ -43,17 +39,17 @@ func (s *transactionService) Cashout(ctx context.Context, tx *paypack.Transactio
 
 	out := new(paypack.TransactionResponse)
 
-	_, err := s.http.do(ctx, "POST", endpoint, in, out, header)
+	_, err := c.do(ctx, "POST", endpoint, in, out, header)
 	return out, err
 }
 
-func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Transaction, error) {
+func (c *Client) FindTx(ctx context.Context, ref string) (*paypack.Transaction, error) {
 
 	endpoint := fmt.Sprintf("transactions/find/%s", ref)
 
 	out := new(Transaction)
 
-	_, err := s.http.do(ctx, "GET", endpoint, nil, out, nil)
+	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
 
 	res := &paypack.Transaction{
 		Ref:       out.Ref,
@@ -68,7 +64,7 @@ func (s *transactionService) Find(ctx context.Context, ref string) (*paypack.Tra
 }
 
 // List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
-func (s *transactionService) List(ctx context.Context, options ...paypack.Option) (*paypack.Transactions, error) {
+func (c *Client) ListTx(ctx context.Context, options ...paypack.Option) (*paypack.Transactions, error) {
 
 	var params string
 
@@ -82,7 +78,7 @@ func (s *transactionService) List(ctx context.Context, options ...paypack.Option
 
 	out := new(listTransactions)
 
-	_, err := s.http.do(ctx, "GET", endpoint, nil, out, nil)
+	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
 
 	res := &paypack.Transactions{
 		Offset:       out.Offset,
@@ -111,5 +107,3 @@ func (s *transactionService) List(ctx context.Context, options ...paypack.Option
 
 	return res, err
 }
-
-var _ (paypack.TransactionService) = (*transactionService)(nil)

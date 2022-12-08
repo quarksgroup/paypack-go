@@ -1,9 +1,5 @@
 package paypack
 
-import (
-	"context"
-)
-
 type Event struct {
 	ID        string      `json:"event_id"`
 	Data      Transaction `json:"data"`
@@ -20,9 +16,4 @@ type EventList struct {
 	Limit        uint64  `json:"limit,omitempty"`
 	Total        uint64  `json:"total,omitempty"`
 	Transactions []Event `json:"transactions,omitempty"`
-}
-
-type EventService interface {
-	// List returns a collection of events that match a list of filters query params
-	List(ctx context.Context, options ...Option) (*EventList, error)
 }

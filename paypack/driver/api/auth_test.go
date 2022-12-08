@@ -30,7 +30,7 @@ func TestLogin(t *testing.T) {
 		File("testdata/token.json")
 	client := NewDefault()
 
-	got, err := client.Auth.Login(context.Background(), "client_id", "client_secret")
+	got, err := client.Login(context.Background(), "client_id", "client_secret")
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 
@@ -61,7 +61,7 @@ func TestRefersh(t *testing.T) {
 		File("testdata/token.json")
 	client := NewDefault()
 
-	got, err := client.Auth.Refresh(context.Background(), token)
+	got, err := client.Refresh(context.Background(), token)
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 
