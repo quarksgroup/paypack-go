@@ -21,15 +21,6 @@ type TokenSource interface {
 	Token(context.Context) (*Token, error)
 }
 
-// AuthService handles authentication to the underlying API
-type AuthService interface {
-	// Login with cleint_id and client_secret to the underlying API and get an JWT token of paypack api
-	Login(context.Context, string, string) (*Token, error)
-
-	// Refresh the access token for revalidated the jwt token
-	Refresh(ctx context.Context, token *Token) (*Token, error)
-}
-
 // WithContext returns a copy of parent in which the token value is set
 func WithContext(parent context.Context, token *Token) context.Context {
 	return context.WithValue(parent, TokenKey{}, token)

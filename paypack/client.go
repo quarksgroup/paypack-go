@@ -39,18 +39,6 @@ type Client struct {
 	// Driver identifies the payment provider to use
 	Driver Driver
 
-	// Auth authenticates our http api call to  authenticate user.
-	Auth AuthService
-
-	// Transactions our http api call for commiting cashin
-	Transaction TransactionService
-
-	// Merchant our http api call for merchants
-	Merchant MerchantService
-
-	// Events our http api call for events
-	Event EventService
-
 	// DumpResponse optionally specifies a function to
 	// dump the the response body for debugging purposes.
 	// This can be set to httputil.DumpResponse.

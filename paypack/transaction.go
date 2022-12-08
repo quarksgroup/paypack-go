@@ -1,7 +1,6 @@
 package paypack
 
 import (
-	"context"
 	"time"
 )
 
@@ -51,18 +50,4 @@ type TransactionResponse struct {
 	UserRef   string     `json:"user_ref"`
 	Kind      string     `json:"kind"`
 	CreatedAt *time.Time `json:"created_at"`
-}
-
-// TransactionService is the transaction engine responsible for transactions
-// on the underying third party service of paypack api.
-type TransactionService interface {
-
-	// Cashin handles cashin http api request for https://payments.paypack.rw/api/transactions/cashin
-	Cashin(context.Context, *TransactionRequest) (*TransactionResponse, error)
-	// Cashout handles Cashout http api request for https://payments.paypack.rw/api/transactions/cashout
-	Cashout(context.Context, *TransactionRequest) (*TransactionResponse, error)
-	// Find handles Find http api request for https://payments.paypack.rw/api/transactions/find/{ref}
-	Find(context.Context, string) (*Transaction, error)
-	// List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
-	List(ctx context.Context, options ...Option) (*Transactions, error)
 }

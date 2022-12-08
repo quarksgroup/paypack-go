@@ -16,8 +16,12 @@ const (
 	baseURL = "https://payments.paypack.rw/api"
 )
 
+type Client struct {
+	*paypack.Client
+}
+
 // New creates a new payment.Client instance backed by the paypack.DriverPaypack
-func New(uri string) (*paypack.Client, error) {
+func New(uri string) (*Client, error) {
 	base, err := url.Parse(uri)
 	if err != nil {
 		return nil, err
@@ -26,37 +30,25 @@ func New(uri string) (*paypack.Client, error) {
 		base.Path = base.Path + "/"
 	}
 
-	client := &wrapper{new(paypack.Client)}
+	cli := new(paypack.Client)
 
-	client.BaseURL = base
+	cli.BaseURL = base
 
-	client.Driver = paypack.DriverPaypack
+	cli.Driver = paypack.DriverPaypack
 
-	client.Auth = &authService{client}
-
-	client.Merchant = &merchantService{client}
-
-	client.Event = &eventService{client}
-
-	client.Transaction = &transactionService{client}
-
-	return client.Client, nil
-}
-
-type wrapper struct {
-	*paypack.Client
+	return &Client{cli}, nil
 }
 
 // NewDefault returns a new paypack-payments connection for client using the`
 // default "https://payments.paypack.rw/api" address.
-func NewDefault() *paypack.Client {
+func NewDefault() *Client {
 	client, _ := New(baseURL)
 	return client
 }
 
 // do wraps the Client.Do function by creating the Request and
 // unmarshalling the response.
-func (c *wrapper) do(ctx context.Context, method, path string, in, out interface{}, headers http.Header) (*paypack.Response, error) {
+func (c *Client) do(ctx context.Context, method, path string, in, out interface{}, headers http.Header) (*paypack.Response, error) {
 	req := &paypack.Request{
 		Method: method,
 		Path:   path,

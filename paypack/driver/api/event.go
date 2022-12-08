@@ -8,12 +8,8 @@ import (
 	"github.com/quarksgroup/paypack-go/paypack"
 )
 
-type eventService struct {
-	http *wrapper
-}
-
-// List implements the paypack list events with the given query slice parameters
-func (s *eventService) List(ctx context.Context, options ...paypack.Option) (*paypack.EventList, error) {
+// ListEvent implements the paypack list events with the given query slice parameters
+func (c *Client) ListEvent(ctx context.Context, options ...paypack.Option) (*paypack.EventList, error) {
 
 	var params string
 	if len(options) > 0 {
@@ -26,7 +22,7 @@ func (s *eventService) List(ctx context.Context, options ...paypack.Option) (*pa
 
 	out := new(listEventResponse)
 
-	_, err := s.http.do(ctx, "GET", endpoint, nil, out, nil)
+	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
 
 	res := &paypack.EventList{
 		Kind:         out.Kind,
@@ -57,5 +53,3 @@ func (s *eventService) List(ctx context.Context, options ...paypack.Option) (*pa
 	return res, err
 
 }
-
-var _ (paypack.EventService) = (*eventService)(nil)
