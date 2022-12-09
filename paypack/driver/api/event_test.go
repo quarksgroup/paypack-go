@@ -25,7 +25,7 @@ func TestEvent(t *testing.T) {
 
 	client := NewDefault()
 
-	got, err := client.ListEvent(context.Background(), "status=failed", "limit=10", "offset=0", "kind=cashin")
+	got, err := client.ListEvents(context.Background(), "status=failed", "limit=10", "offset=0", "kind=cashin")
 
 	require.Nil(t, err, fmt.Sprintf("unexpected error %s", err))
 
