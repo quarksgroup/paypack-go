@@ -8,8 +8,8 @@ import (
 	"github.com/quarksgroup/paypack-go/paypack"
 )
 
-// ListEvent implements the paypack list events with the given query slice parameters
-func (c *Client) ListEvent(ctx context.Context, options ...paypack.Option) (*paypack.EventList, error) {
+// ListEvents implements the paypack list events with the given query slice parameters
+func (c *Client) ListEvents(ctx context.Context, options ...paypack.Option) (*paypack.EventList, error) {
 
 	var params string
 	if len(options) > 0 {
