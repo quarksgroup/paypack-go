@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/quarksgroup/paypack-go/paypack"
 )
@@ -42,10 +41,7 @@ func (c *Client) Checkout(ctx context.Context, agent string) (*paypack.Checkout,
 
 	out := new(checkoutResponse)
 
-	header := http.Header{
-		"X-security": []string{"secret"}, // help for more security
-	}
-	_, err := c.do(ctx, "GET", endpoint, nil, out, header)
+	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
 
 	if err != nil {
 		return nil, err
