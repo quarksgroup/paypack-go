@@ -85,7 +85,8 @@ type checkoutResponse struct {
 	Name         string `json:"name"`
 	Merchant     string `json:"merchant"`
 	Logo         string `json:"logo"`
-	SendEmail    bool   `json:"send_email"` // This will represent if merchant need to send email when payments successed
+	SendEmail    bool   `json:"send_email"`      // This will represent if merchant need to send email when payments successed
+	Email        string `json:"email,omitempty"` //This will be support email that will be sent to customer email for reply
 	CancelUrl    string `json:"cancel_url"`
 	SuccessUrl   string `json:"success_url"`
 	ClientId     string `json:"client_id"`
