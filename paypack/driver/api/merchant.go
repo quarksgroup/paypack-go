@@ -34,7 +34,7 @@ func (c *Client) Profile(ctx context.Context) (*paypack.Merchant, error) {
 //FindCheckout that will query checkout information of a given agent id
 func (c *Client) FindCheckout(ctx context.Context, agent string) (*paypack.Checkout, error) {
 
-	endpoint := "checkout/find/" + agent
+	endpoint := "checkouts/find/" + agent
 
 	out := new(checkoutResponse)
 
@@ -48,11 +48,12 @@ func (c *Client) FindCheckout(ctx context.Context, agent string) (*paypack.Check
 		Name:         out.Name,
 		Merchant:     out.Merchant,
 		Logo:         out.Logo,
+		Email:        out.Email,
 		SendEmail:    out.SendEmail,
-		CancelUrl:    out.CancelUrl,
-		SuccessUrl:   out.SuccessUrl,
 		ClientId:     out.ClientId,
 		ClientSecret: out.ClientSecret,
+		CancelUrl:    out.CancelUrl,
+		SuccessUrl:   out.SuccessUrl,
 	}
 
 	return res, err
