@@ -21,8 +21,13 @@ func (c *Client) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*p
 	}
 
 	out := new(paypack.TransactionResponse)
+
 	_, err := c.do(ctx, "POST", endpoint, in, out, header)
-	return out, err
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }
 
 func (c *Client) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
@@ -40,7 +45,11 @@ func (c *Client) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*
 	out := new(paypack.TransactionResponse)
 
 	_, err := c.do(ctx, "POST", endpoint, in, out, header)
-	return out, err
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }
 
 func (c *Client) FindTx(ctx context.Context, ref string) (*paypack.Transaction, error) {
@@ -50,6 +59,9 @@ func (c *Client) FindTx(ctx context.Context, ref string) (*paypack.Transaction, 
 	out := new(Transaction)
 
 	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	res := &paypack.Transaction{
 		Ref:       out.Ref,
@@ -60,7 +72,8 @@ func (c *Client) FindTx(ctx context.Context, ref string) (*paypack.Transaction, 
 		Client:    out.Client,
 		CreatedAt: out.Timestamp,
 	}
-	return res, err
+
+	return res, nil
 }
 
 // List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
@@ -79,6 +92,9 @@ func (c *Client) ListTx(ctx context.Context, options ...paypack.Option) (*paypac
 	out := new(listTransactions)
 
 	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	res := &paypack.Transactions{
 		Offset:       out.Offset,
@@ -105,5 +121,5 @@ func (c *Client) ListTx(ctx context.Context, options ...paypack.Option) (*paypac
 		})
 	}
 
-	return res, err
+	return res, nil
 }

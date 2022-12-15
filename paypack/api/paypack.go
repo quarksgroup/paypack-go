@@ -17,7 +17,7 @@ const (
 )
 
 type Client struct {
-	*paypack.Client
+	inner *paypack.Client
 }
 
 // New creates a new payment.Client instance backed by the paypack.DriverPaypack
@@ -36,7 +36,7 @@ func New(uri string) (*Client, error) {
 
 	cli.Driver = paypack.DriverPaypack
 
-	return &Client{cli}, nil
+	return &Client{inner: cli}, nil
 }
 
 // NewDefault returns a new paypack-payments connection for client using the`
@@ -70,7 +70,7 @@ func (c *Client) do(ctx context.Context, method, path string, in, out interface{
 	}
 
 	// execute the http request
-	res, err := c.Client.Do(ctx, req)
+	res, err := c.inner.Do(ctx, req)
 	if err != nil {
 		return nil, err
 	}

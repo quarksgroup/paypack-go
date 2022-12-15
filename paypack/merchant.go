@@ -25,4 +25,5 @@ type Checkout struct {
 	ClientSecret string `json:"client_secret,omitempty"`
 	CancelUrl    string `json:"cancel_url,omitempty"`
 	SuccessUrl   string `json:"success_url,omitempty"`
+	AppUrl       string `json:"app_url,omitempty"`
 }

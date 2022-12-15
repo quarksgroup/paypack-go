@@ -24,6 +24,10 @@ func (c *Client) ListEvents(ctx context.Context, options ...paypack.Option) (*pa
 
 	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
 
+	if err != nil {
+		return nil, err
+	}
+
 	res := &paypack.EventList{
 		Kind:         out.Kind,
 		Offset:       out.Offset,
@@ -50,6 +54,6 @@ func (c *Client) ListEvents(ctx context.Context, options ...paypack.Option) (*pa
 
 		res.Transactions = append(res.Transactions, resp)
 	}
-	return res, err
+	return res, nil
 
 }
