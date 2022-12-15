@@ -8,12 +8,15 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
+	"github.com/PuerkitoBio/rehttp"
 	"github.com/quarksgroup/paypack-go/paypack"
 )
 
 const (
 	baseURL = "https://payments.paypack.rw/api"
+	retries = 3
 )
 
 type Client struct {
@@ -21,7 +24,7 @@ type Client struct {
 }
 
 // New creates a new payment.Client instance backed by the paypack.DriverPaypack
-func New(uri string) (*Client, error) {
+func New(uri string, tr http.RoundTripper) (*Client, error) {
 	base, err := url.Parse(uri)
 	if err != nil {
 		return nil, err
@@ -30,19 +33,39 @@ func New(uri string) (*Client, error) {
 		base.Path = base.Path + "/"
 	}
 
-	cli := new(paypack.Client)
+	retryTransport := rehttp.NewTransport(
+		tr,
+		rehttp.RetryAll(
+			rehttp.RetryMaxRetries(retries),
+			rehttp.RetryAny(
+				rehttp.RetryTemporaryErr(),
+				rehttp.RetryStatuses(502, 503),
+			),
+		),
+		rehttp.ExpJitterDelay(100*time.Millisecond, 1*time.Second),
+	)
 
-	cli.BaseURL = base
+	httpClient := &http.Client{
+		Transport: retryTransport,
+	}
 
-	cli.Driver = paypack.DriverPaypack
+	inner := &paypack.Client{
+		Http:    httpClient,
+		BaseURL: base,
+		Driver:  paypack.DriverPaypack,
+	}
 
-	return &Client{inner: cli}, nil
+	client := new(Client)
+
+	client.inner = inner
+
+	return client, nil
 }
 
 // NewDefault returns a new paypack-payments connection for client using the`
 // default "https://payments.paypack.rw/api" address.
 func NewDefault() *Client {
-	client, _ := New(baseURL)
+	client, _ := New(baseURL, nil)
 	return client
 }
 
