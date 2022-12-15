@@ -16,6 +16,10 @@ func (c *Client) Profile(ctx context.Context) (*paypack.Merchant, error) {
 
 	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
 
+	if err != nil {
+		return nil, err
+	}
+
 	res := &paypack.Merchant{
 		ID:            out.ID,
 		Name:          out.Name,
@@ -28,11 +32,11 @@ func (c *Client) Profile(ctx context.Context) (*paypack.Merchant, error) {
 		MtnBalance:    out.MtnBalance,
 	}
 
-	return res, err
+	return res, nil
 }
 
-//FindCheckout that will query checkout information of a given agent id
-func (c *Client) FindCheckout(ctx context.Context, agent string) (*paypack.Checkout, error) {
+//Checkout that will query checkout information of a given agent id
+func (c *Client) Checkout(ctx context.Context, agent string) (*paypack.Checkout, error) {
 
 	endpoint := "checkouts/find/" + agent
 
@@ -43,12 +47,17 @@ func (c *Client) FindCheckout(ctx context.Context, agent string) (*paypack.Check
 	}
 	_, err := c.do(ctx, "GET", endpoint, nil, out, header)
 
+	if err != nil {
+		return nil, err
+	}
+
 	res := &paypack.Checkout{
 		ID:           out.ID,
 		Name:         out.Name,
 		Merchant:     out.Merchant,
 		Logo:         out.Logo,
 		Email:        out.Email,
+		AppUrl:       out.AppUrl,
 		SendEmail:    out.SendEmail,
 		ClientId:     out.ClientId,
 		ClientSecret: out.ClientSecret,
@@ -56,5 +65,5 @@ func (c *Client) FindCheckout(ctx context.Context, agent string) (*paypack.Check
 		SuccessUrl:   out.SuccessUrl,
 	}
 
-	return res, err
+	return res, nil
 }

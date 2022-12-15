@@ -24,7 +24,11 @@ func (c *Client) Login(ctx context.Context, clientId, clietnSecret string) (*pay
 
 	_, err := c.do(ctx, "POST", loginEndpoint, in, out, nil)
 
-	return convertToken(out), err
+	if err != nil {
+		return nil, err
+	}
+
+	return convertToken(out), nil
 }
 
 func (c *Client) Refresh(ctx context.Context, token *paypack.Token) (*paypack.Token, error) {
@@ -38,7 +42,11 @@ func (c *Client) Refresh(ctx context.Context, token *paypack.Token) (*paypack.To
 
 	_, err := c.do(ctx, "GET", fmt.Sprintf("%s/%s", refershEndpoint, token.Refresh), nil, out, nil)
 
-	return convertToken(out), err
+	if err != nil {
+		return nil, err
+	}
+
+	return convertToken(out), nil
 }
 
 func convertToken(tk *tokenResponse) *paypack.Token {
