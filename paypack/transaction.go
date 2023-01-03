@@ -36,9 +36,10 @@ type Transactions struct {
 
 // TransactionRequest represents as single payload required for making transaction
 type TransactionRequest struct {
-	Amount float64
-	Number string
-	Mode   string
+	Amount     float64
+	Number     string
+	Mode       string
+	WebhookIds []string
 }
 
 //TransactionResponse represent as single response data created after transaction was commited
