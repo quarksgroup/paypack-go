@@ -25,5 +25,5 @@ type Checkout struct {
 	ClientSecret string `json:"client_secret,omitempty"`
 	CancelUrl    string `json:"cancel_url,omitempty"`
 	SuccessUrl   string `json:"success_url,omitempty"`
-	AppUrl       string `json:"app_url,omitempty"`
+	AppUrl       string `json:"app_url,omitempty"` //this is the app link to redirect to when user click on the logo button or back button
 }
