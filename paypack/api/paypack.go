@@ -77,6 +77,7 @@ func (c *Client) do(ctx context.Context, method, path string, in, out interface{
 		Path:   path,
 	}
 
+	//Make all http request to be json content-type
 	req.Header = map[string][]string{
 		"Content-Type": {"application/json"},
 	}
