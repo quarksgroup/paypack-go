@@ -18,6 +18,7 @@ func (c *Client) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*p
 
 	header := http.Header{
 		"X-Webhook-Mode": []string{tx.Mode},
+		"X-Webhook-Ids":  tx.WebhookIds,
 	}
 
 	out := new(paypack.TransactionResponse)
@@ -40,6 +41,7 @@ func (c *Client) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*
 
 	header := http.Header{
 		"X-Webhook-Mode": []string{tx.Mode},
+		"X-Webhook-Ids":  tx.WebhookIds,
 	}
 
 	out := new(paypack.TransactionResponse)

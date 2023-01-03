@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/quarksgroup/paypack-go/paypack"
 )
@@ -35,13 +36,17 @@ func (c *Client) Profile(ctx context.Context) (*paypack.Merchant, error) {
 }
 
 //Checkout that will query checkout information of a given agent id
-func (c *Client) Checkout(ctx context.Context, agent string) (*paypack.Checkout, error) {
+func (c *Client) Checkout(ctx context.Context, agent, secret string) (*paypack.Checkout, error) {
 
 	endpoint := "checkouts/find/" + agent
 
+	header := http.Header{
+		"X-Checkout-Access-Secret": []string{secret},
+	}
+
 	out := new(checkoutResponse)
 
-	_, err := c.do(ctx, "GET", endpoint, nil, out, nil)
+	_, err := c.do(ctx, "GET", endpoint, nil, out, header)
 
 	if err != nil {
 		return nil, err
