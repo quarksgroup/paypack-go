@@ -77,14 +77,14 @@ func (c *Client) do(ctx context.Context, method, path string, in, out interface{
 		Path:   path,
 	}
 
+	req.Header = map[string][]string{
+		"Content-Type": {"application/json"},
+	}
 	// if we are posting or putting data, we need to
 	// write it to the body of the request.
 	if in != nil {
 		buf := new(bytes.Buffer)
 		_ = json.NewEncoder(buf).Encode(in)
-		req.Header = map[string][]string{
-			"Content-Type": {"application/json"},
-		}
 		req.Body = buf
 	}
 

@@ -1,0 +1,13 @@
+{
+   "id": "6bd6f1e4-8667-43be-ba8a-9aa31744e5d0",
+    "merchant": "6777VSHS",
+    "name": "market-checkout",
+    "logo": "hello.jpg",
+    "email": "example@gmail.com",
+    "send_emmail": true,
+    "client_id": "6bd6f1e4-8667-43be-ba8a-9aa31744e5d0",
+    "client_secret": "6bd6f1e4-8667-43be-ba8a-9aa31744e5d0-dsuisdhiusdj-suiyiuqwuoe",
+    "cancel_url": "",
+    "success_url": "",
+    "app_url": ""
+}
