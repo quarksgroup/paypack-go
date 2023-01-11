@@ -36,19 +36,20 @@ type Transactions struct {
 
 // TransactionRequest represents as single payload required for making transaction
 type TransactionRequest struct {
-	Amount     float64
-	Number     string
-	Mode       string
-	WebhookIds []string
+	Amount     float64  // Amount to be transacted
+	Number     string   // Phone number that will refunded or withdrawn money from
+	Mode       string   // development or production mode which will be used to choose where your callback will be sent
+	MetaData   string   // Optional encoded json string
+	WebhookIds []string // Optional registered webhook_ids array where callback will be sent
 }
 
 //TransactionResponse represent as single response data created after transaction was commited
 type TransactionResponse struct {
-	Ref       string     `json:"ref"`
-	Status    string     `json:"status"`
-	Amount    float64    `json:"amount"`
-	Provider  string     `json:"provider"`
-	UserRef   string     `json:"user_ref"`
-	Kind      string     `json:"kind"`
-	CreatedAt *time.Time `json:"created_at"`
+	Ref       string     `json:"ref"`        // Unique reference of transaction
+	Status    string     `json:"status"`     // Status of transaction
+	Amount    float64    `json:"amount"`     // Amount of transaction
+	Provider  string     `json:"provider"`   // Provider of transaction mtn, airtel
+	UserRef   string     `json:"user_ref"`   // User reference of transaction this is unique dynamic provided by user or provided by system if not provided by user
+	Kind      string     `json:"kind"`       // Kind of transaction cashin or cashout
+	CreatedAt *time.Time `json:"created_at"` // Time when transaction was created
 }
