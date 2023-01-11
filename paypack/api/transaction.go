@@ -8,6 +8,7 @@ import (
 	"github.com/quarksgroup/paypack-go/paypack"
 )
 
+//Cashin responsible to push refund from your phone to dashboard
 func (c *Client) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
 	const endpoint = "transactions/cashin"
 
@@ -17,8 +18,9 @@ func (c *Client) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*p
 	}
 
 	header := http.Header{
-		"X-Webhook-Mode": []string{tx.Mode},
-		"X-Webhook-Ids":  tx.WebhookIds,
+		"X-Webhook-Mode":   []string{tx.Mode},
+		"X-Webhook-Ids":    tx.WebhookIds,
+		"X-Meta-Data-Keys": []string{tx.MetaData},
 	}
 
 	out := new(paypack.TransactionResponse)
@@ -31,6 +33,7 @@ func (c *Client) Cashin(ctx context.Context, tx *paypack.TransactionRequest) (*p
 	return out, nil
 }
 
+//Cashout responsible to pull refund from dashboard to your phone
 func (c *Client) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*paypack.TransactionResponse, error) {
 	const endpoint = "transactions/cashout"
 
@@ -40,8 +43,9 @@ func (c *Client) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*
 	}
 
 	header := http.Header{
-		"X-Webhook-Mode": []string{tx.Mode},
-		"X-Webhook-Ids":  tx.WebhookIds,
+		"X-Webhook-Mode":   []string{tx.Mode},
+		"X-Webhook-Ids":    tx.WebhookIds,
+		"X-Meta-Data-Keys": []string{tx.MetaData},
 	}
 
 	out := new(paypack.TransactionResponse)
@@ -54,6 +58,7 @@ func (c *Client) Cashout(ctx context.Context, tx *paypack.TransactionRequest) (*
 	return out, nil
 }
 
+//FindTx responsible to query transaction information that is corresponding to given ref or return error
 func (c *Client) FindTx(ctx context.Context, ref string) (*paypack.Transaction, error) {
 
 	endpoint := fmt.Sprintf("transactions/find/%s", ref)
@@ -78,7 +83,7 @@ func (c *Client) FindTx(ctx context.Context, ref string) (*paypack.Transaction, 
 	return res, nil
 }
 
-// List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas
+// List handles List http api request for https://payments.paypack.rw/api/transactions/list with paramas eg:["kind=cashin",phone="078xxxx"]
 func (c *Client) ListTx(ctx context.Context, options ...paypack.Option) (*paypack.Transactions, error) {
 
 	var params string
