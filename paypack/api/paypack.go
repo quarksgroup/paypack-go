@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -87,6 +88,11 @@ func (c *Client) do(ctx context.Context, method, path string, in, out interface{
 		buf := new(bytes.Buffer)
 		_ = json.NewEncoder(buf).Encode(in)
 		req.Body = buf
+	}
+
+	tk := paypack.TokenFrom(ctx)
+	if tk != nil {
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", tk.Access))
 	}
 
 	for k, v := range headers {
