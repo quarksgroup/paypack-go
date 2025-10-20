@@ -30,8 +30,17 @@ func New(uri string, tr http.RoundTripper) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	if !strings.HasSuffix(base.Path, "/") {
 		base.Path = base.Path + "/"
+	}
+
+	if tr == nil {
+		tr = &oauth.Transport{
+			Scheme: oauth.SchemeBearer,
+			Source: oauth.ContextTokenSource(),
+			Base:   http.DefaultTransport,
+		}
 	}
 
 	retryTransport := rehttp.NewTransport(
@@ -47,11 +56,7 @@ func New(uri string, tr http.RoundTripper) (*Client, error) {
 	)
 
 	httpClient := &http.Client{
-		Transport: &oauth.Transport{
-			Scheme: oauth.SchemeBearer,
-			Source: oauth.ContextTokenSource(),
-			Base:   retryTransport,
-		},
+		Transport: retryTransport,
 	}
 
 	inner := &paypack.Client{
