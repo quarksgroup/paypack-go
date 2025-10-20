@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/PuerkitoBio/rehttp"
 	"github.com/quarksgroup/paypack-go/paypack"
+	"github.com/quarksgroup/paypack-go/paypack/transport/oauth"
 )
 
 const (
@@ -30,8 +30,17 @@ func New(uri string, tr http.RoundTripper) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	if !strings.HasSuffix(base.Path, "/") {
 		base.Path = base.Path + "/"
+	}
+
+	if tr == nil {
+		tr = &oauth.Transport{
+			Scheme: oauth.SchemeBearer,
+			Source: oauth.ContextTokenSource(),
+			Base:   http.DefaultTransport,
+		}
 	}
 
 	retryTransport := rehttp.NewTransport(
@@ -88,11 +97,6 @@ func (c *Client) do(ctx context.Context, method, path string, in, out interface{
 		buf := new(bytes.Buffer)
 		_ = json.NewEncoder(buf).Encode(in)
 		req.Body = buf
-	}
-
-	tk := paypack.TokenFrom(ctx)
-	if tk != nil {
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", tk.Access))
 	}
 
 	for k, v := range headers {
