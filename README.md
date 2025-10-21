@@ -29,12 +29,110 @@ go get -u github.com/quarksgroup/paypack-go@latest
 
 ## Below are a few simple examples:
 
-### Merchant
+### Merchant Profile
+```go
+package main
 
-### Events
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/quarksgroup/paypack-go"
+)
+
+func main() {
+    client := paypack.NewDefault()
+
+    merchant, err := client.Profile(context.Background())
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(merchant.Name)
+}
+```
+
+### Cashin (Deposit)
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/quarksgroup/paypack-go"
+)
+
+func main() {
+    client := paypack.NewDefault()
+
+    tx, err := client.Cashin(context.Background(), &paypack.TransactionRequest{
+        Amount: 100,
+        Number: "0789898989",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(tx.Ref)
+}
+```
+
+### List Events
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/quarksgroup/paypack-go"
+)
+
+func main() {
+    client := paypack.NewDefault()
+
+    events, err := client.ListEvents(context.Background())
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(events.Transactions)
+}
+```
 
 ### Authentication
 
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+    "os"
+
+    "github.com/quarksgroup/paypack-go"
+)
+
+func main() {
+    client := paypack.NewDefault()
+    clientID := os.Getenv("CLIENT_ID")
+    clientSecret := os.Getenv("CLIENT_SECRET")
+
+    token, err := client.Login(context.Background(), clientID, clientSecret)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(token.Access)
+}
+```
+
 ### Usage
 
-[api-docs]: http://payments.paypack.rw/api
+Access full documentation [here](https://docs.paypack.rw/sdk/go)
